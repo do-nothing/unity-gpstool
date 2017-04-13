@@ -36,8 +36,12 @@
 				v2f o;
 				o.pos = UnityObjectToClipPos(v.vertex);
 				float2 tiling = float2(_BgTex_ST.x*_BgTex_ST.y,_BgTex_ST.x);
-				o.uv = v.texcoord.xy * tiling + (float2(1,1)-tiling)/2 + _BgTex_ST.zw;
-				o.uv2 = v.texcoord.xy * _PlayerTex_ST.xy + _PlayerTex_ST.zw;
+				o.uv = v.texcoord.xy * tiling + (float2(1,1)-tiling) * 0.5 + _BgTex_ST.zw;
+				float2 _PlayerTex_ST_zw = (_BgTex_ST.zw -_Target.xy * 0.02) * _PlayerTex_ST.y / _BgTex_ST.x;
+				_PlayerTex_ST_zw.x += (2 / (_BgTex_ST.x * _BgTex_ST.y) - 1) * 0.5 * _PlayerTex_ST.x;
+				_PlayerTex_ST_zw.y += (2 / _BgTex_ST.x  - 1) * 0.5 * _PlayerTex_ST.y;
+				_PlayerTex_ST_zw += _PlayerTex_ST.zw;
+				o.uv2 = v.texcoord.xy * _PlayerTex_ST.xy + _PlayerTex_ST_zw;
 
 				return o;
 			}
