@@ -48,12 +48,11 @@
 				//spin player
 				o.uv2 -= float2(0.5, 0.5);
 				float2 spin;
-				float degree = radians(_Target.w);
+				float degree = radians(_Target.w + 90);
 				spin.x = o.uv2.x * cos(degree) + o.uv2.y * sin(degree);
 				spin.y = o.uv2.y * cos(degree) - o.uv2.x * sin(degree);
 				o.uv2 = spin;
 				o.uv2 += float2(0.5, 0.5);
-
 
 				return o;
 			}

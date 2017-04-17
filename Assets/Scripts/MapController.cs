@@ -10,14 +10,58 @@ public class MapController : MonoBehaviour {
 	private Vector2 tiling;
 	private float lastDistance;
 	private bool moveable = false;
+    private Vector4 player;
 
 	void Start () {
         material = GetComponent<Image>().material;
-		offset = material.GetTextureOffset("_MainTex");
-		tiling = material.GetTextureScale("_MainTex");
+        offset = material.GetTextureOffset("_BgTex");
+        tiling = material.GetTextureScale("_BgTex");
+
+        if (!Input.gyro.enabled)
+            Input.gyro.enabled = true;
+
 	}
 	
 	void Update () {
+        player = material.GetVector("_Target");
+        spinPlayer();
+        material.SetVector("_Target", player);
+
+        screenControl();
+
+	}
+
+    private void spinPlayer()
+    {
+        float compass;
+        Quaternion quaternion = Input.gyro.attitude;
+        quaternion.z *= -1;
+        quaternion.w *= -1;
+
+        Vector3 zforward = quaternion * new Vector3(0, 0, 1);
+        float az = getRfromXY(zforward.y, zforward.x);
+
+        Vector3 yforward = quaternion * new Vector3(0, 1, 0);
+        float ay = getRfromXY(yforward.y, yforward.x);
+
+        float g = Vector3.Dot(zforward, new Vector3(0, 0, 1));
+        g = Mathf.Acos(g);
+
+        compass = g > Mathf.PI / 4 ? az : ay;
+        compass *= Mathf.Rad2Deg;
+        player.w = compass;
+    }
+
+    private float getRfromXY(float y, float x)
+    {
+        float r = Mathf.Atan2(y, x);
+        r -= Mathf.PI / 2;
+        r = r < 0 ? r + 2 * Mathf.PI : r;
+        return r;
+    }
+
+    private void screenControl()
+    {
         if (Input.touchCount == 1) {
 			if (Input.GetTouch (0).phase == TouchPhase.Began) {
 				moveable = true;
@@ -29,7 +73,7 @@ public class MapController : MonoBehaviour {
 
 				offset.x -= deltaX * tiling.x;
 				offset.y -= deltaY * tiling.x;
-                material.SetTextureOffset("_MainTex", offset);
+                material.SetTextureOffset("_BgTex", offset);
             }
         }
 
@@ -41,11 +85,11 @@ public class MapController : MonoBehaviour {
 			if (Input.GetTouch (0).phase == TouchPhase.Moved || Input.GetTouch (1).phase == TouchPhase.Moved) {
 				float distance = Vector2.Distance (Input.GetTouch (0).position, Input.GetTouch (1).position);
 				if ((tiling.x >= 0.5f && distance > lastDistance) || (tiling.x < 5 && distance < lastDistance)) {
-					tiling.x *= lastDistance / distance;					
-					material.SetTextureScale ("_MainTex", tiling);
+					tiling.x *= lastDistance / distance;
+                    material.SetTextureScale("_BgTex", tiling);
 					lastDistance = Vector2.Distance(Input.GetTouch(0).position, Input.GetTouch (1).position);
 				}
 			}
 		}
-	}
+    }
 }
