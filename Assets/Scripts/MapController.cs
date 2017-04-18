@@ -25,11 +25,20 @@ public class MapController : MonoBehaviour {
 	void Update () {
         player = material.GetVector("_Target");
         spinPlayer();
+        placePlayer();
         material.SetVector("_Target", player);
 
         screenControl();
 
 	}
+
+    private void placePlayer()
+    {
+        if (Input.location.status == LocationServiceStatus.Running)
+        {
+            player.z = Input.location.lastData.horizontalAccuracy;
+        }
+    }
 
     private void spinPlayer()
     {
