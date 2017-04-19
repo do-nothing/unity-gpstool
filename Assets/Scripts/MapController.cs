@@ -36,7 +36,7 @@ public class MapController : MonoBehaviour {
     {
         if (Input.location.status == LocationServiceStatus.Running)
         {
-            player.z = Input.location.lastData.horizontalAccuracy;
+            //player.z = Input.location.lastData.horizontalAccuracy;
         }
     }
 

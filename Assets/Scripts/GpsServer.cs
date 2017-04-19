@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,22 +8,42 @@ public class GpsServer : MonoBehaviour {
 
     private Text text;
     private bool isStarted = false;
+    private LocationInfo info;
+
+    public Vector3 horizontal;
+
     IEnumerator Start()
     {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
         text = GameObject.Find("Canvas/Text").GetComponent<Text>();
         yield return startGPS();
 	}
 	
 	void Update () {
-        if (!isStarted)
-            return;
-        text.text = "timestamp:" + Input.location.lastData.timestamp;
-        text.text += "\nlongitude:" + Input.location.lastData.longitude;
-        text.text += "\nlatitude:" + Input.location.lastData.latitude;
-        text.text += "\nhorizontalAccuracy:" + Input.location.lastData.horizontalAccuracy;
-        text.text += "\naltitude:" + Input.location.lastData.altitude;
-        text.text += "\nverticalAccuracy:" + Input.location.lastData.verticalAccuracy;
+        if (true)
+        {         
+            text.text = "timestamp:" + info.timestamp;
+            text.text += "\nlongitude:" + info.longitude;
+            text.text += "\nlatitude:" + info.latitude;
+            text.text += "\nhorizontalAccuracy:" + info.horizontalAccuracy;
+            text.text += "\naltitude:" + info.altitude;
+            text.text += "\nverticalAccuracy:" + info.verticalAccuracy;
+
+            text.text += "\n";
+
+            text.text += "\ntime:" + getTime((long)info.timestamp);
+            text.text += "\nhorizontal:";
+            text.text += "\nvertical:";
+        }
 	}
+
+    private DateTime getTime(long timeStamp)
+    {
+        DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+        long lTime = timeStamp * 10000000;
+        TimeSpan toNow = new TimeSpan(lTime); 
+        return dtStart.Add(toNow);
+    }  
 
     private IEnumerator startGPS()
     {
@@ -32,8 +53,8 @@ public class GpsServer : MonoBehaviour {
             text.text = "Input location is not Enabled";
             yield break;
         }
-        Input.compass.enabled = true;
-        Input.location.Start();
+
+        Input.location.Start(1,1);
 
         int maxWait = 20;
         while (Input.location.status == LocationServiceStatus.Initializing && maxWait > 0)
@@ -61,6 +82,11 @@ public class GpsServer : MonoBehaviour {
             text.text = "Device location server started";
             text.color = Color.black;
             isStarted = true;
+            while (true)
+            {
+                info = Input.location.lastData;
+                yield return new WaitForSeconds(2);
+            }
         }
     }
 }
