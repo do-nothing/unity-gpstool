@@ -10,7 +10,11 @@ public class GpsServer : MonoBehaviour {
     private bool isStarted = false;
     private LocationInfo info;
 
-    public Vector3 horizontal;
+    private Vector3 horizontal;
+
+    private const int R = 6371000;
+    private Vector2 olal = new Vector2(108.856127f, 34.196107f);
+    private Vector2 origin = new Vector2(300, 65);
 
     IEnumerator Start()
     {
@@ -32,7 +36,7 @@ public class GpsServer : MonoBehaviour {
             text.text += "\n";
 
             text.text += "\ntime:" + getTime((long)info.timestamp);
-            text.text += "\nhorizontal:";
+            text.text += "\nhorizontal:" + getHorizontal(info);
             text.text += "\nvertical:";
         }
 	}
@@ -43,7 +47,58 @@ public class GpsServer : MonoBehaviour {
         long lTime = timeStamp * 10000000;
         TimeSpan toNow = new TimeSpan(lTime); 
         return dtStart.Add(toNow);
-    }  
+    }
+
+    private Vector2 getPositionFromLaL(Vector2 lal)
+    {
+        Vector2 p = Vector2.zero;
+        Vector2 ra = calcRAfromLaL(olal, lal);
+        float a = Mathf.PI / 2 - ra.y;
+        p.x = ra.x * Mathf.Cos(a);
+        p.y = ra.x * Mathf.Sin(a);
+        p += origin;
+
+        return p ;
+    }
+
+    private Vector2 calcRAfromLaL(Vector2 o, Vector2 t)
+    {
+        Vector2 ra = Vector2.zero;
+
+        double cosc = sin(o.y) * sin(t.y) + cos(o.y) * cos(t.y) * cos(t.x - o.x);
+        ra.x = (float)(Math.Acos(cosc) * R);
+
+        double sinc = Math.Sqrt(1 - cosc * cosc);
+        double sinA = sinc == 0 ? 1 : cos(t.y) * sin(t.x - o.x) / sinc;
+        sinA = (float)Mathf.Clamp((float)sinA, -1, 1);
+        double A = Math.Asin(sinA);
+        double dx, dy;
+        dx = t.x - o.x;
+        dy = t.y - o.y;
+        if (dy > 0 && dx < 0)
+        {
+            A += 2 * Mathf.PI;
+        }
+        else if (dy < 0)
+        {
+            A = Mathf.PI - A;
+        }
+
+        ra.y = (float)A;
+        return ra;
+    }
+
+    private double sin(double a)
+    {
+        a = a / 180 * Math.PI;
+        return Math.Sin(a);
+    }
+
+    private double cos(double a)
+    {
+        a = a / 180 * Math.PI;
+        return Math.Cos(a);
+    }
 
     private IEnumerator startGPS()
     {
@@ -85,8 +140,22 @@ public class GpsServer : MonoBehaviour {
             while (true)
             {
                 info = Input.location.lastData;
+                horizontal = getHorizontal(info);
                 yield return new WaitForSeconds(2);
             }
         }
+    }
+
+    private Vector3 getHorizontal(LocationInfo info)
+    {
+        Vector2 lal = new Vector2(info.longitude, info.latitude);
+        Vector2 position = getPositionFromLaL(lal);
+        Vector3 horizontal = new Vector3(position.x, position.y, info.horizontalAccuracy);
+        return horizontal;
+    }
+
+    public Vector3 getHorizontal()
+    {
+        return horizontal;
     }
 }

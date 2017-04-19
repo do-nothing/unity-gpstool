@@ -11,9 +11,11 @@ public class MapController : MonoBehaviour {
 	private float lastDistance;
 	private bool moveable = false;
     private Vector4 player;
+    private GpsServer gpsServer;
 
 	void Start () {
         material = GetComponent<Image>().material;
+        gpsServer = GetComponent<GpsServer>();
         offset = material.GetTextureOffset("_BgTex");
         tiling = material.GetTextureScale("_BgTex");
 
@@ -32,11 +34,18 @@ public class MapController : MonoBehaviour {
 
 	}
 
+    private void playerInTheCenter()
+    {
+        offset.x = player.x * 0.004f;
+        offset.y = player.y * 0.004f;
+        material.SetTextureOffset("_BgTex", offset);
+    }
+
     private void placePlayer()
     {
         if (Input.location.status == LocationServiceStatus.Running)
         {
-            //player.z = Input.location.lastData.horizontalAccuracy;
+            player = gpsServer.getHorizontal();
         }
     }
 
