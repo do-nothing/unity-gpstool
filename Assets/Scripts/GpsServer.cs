@@ -26,6 +26,11 @@ public class GpsServer : MonoBehaviour {
 	}
 	
 	void Update () {
+        
+	}
+
+    private void printLocationInfo()
+    {
         if (isStarted)
         {
             StringBuilder stringBuilder = new StringBuilder("timestamp:" + info.timestamp);
@@ -39,11 +44,11 @@ public class GpsServer : MonoBehaviour {
 
             stringBuilder.Append("\ntime:" + dateTime);
             stringBuilder.Append("\nhorizontal:" + horizontal);
-            stringBuilder.Append("\nvertical:");
+            stringBuilder.Append("\nsystemTime:" + Time.time);
 
             text.text = stringBuilder.ToString();
         }
-	}
+    }
 
     private DateTime getTime(long timeStamp)
     {
@@ -146,6 +151,7 @@ public class GpsServer : MonoBehaviour {
                 info = Input.location.lastData;
                 horizontal = getHorizontal(info);
                 dateTime = getTime((long)info.timestamp);
+                printLocationInfo();
                 yield return new WaitForSeconds(2);
             }
         }

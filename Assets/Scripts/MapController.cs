@@ -12,9 +12,14 @@ public class MapController : MonoBehaviour {
 	private bool moveable = false;
     private Vector4 player;
     private GpsServer gpsServer;
+    public GameObject bt;
+    private Material btMaterial;
+    private bool isPlayerInCenter = false;
 
 	void Start () {
         material = GetComponent<Image>().material;
+        btMaterial = bt.GetComponent<Image>().material;
+        btMaterial.SetTextureOffset("_MainTex", Vector2.zero);
         gpsServer = GetComponent<GpsServer>();
         offset = material.GetTextureOffset("_BgTex");
         tiling = material.GetTextureScale("_BgTex");
@@ -31,12 +36,16 @@ public class MapController : MonoBehaviour {
         material.SetVector("_Target", player);
 
         screenControl();
+        if (isPlayerInCenter)
+        {
+            playerInTheCenter();
+        }
 	}
 
     private void playerInTheCenter()
     {
-        offset.x = player.x * 0.004f;
-        offset.y = player.y * 0.004f;
+        offset.x = player.x * 0.004f - 1;
+        offset.y = player.y * 0.004f - 1;
         material.SetTextureOffset("_BgTex", offset);
     }
 
@@ -91,6 +100,12 @@ public class MapController : MonoBehaviour {
 				offset.x -= deltaX * tiling.x;
 				offset.y -= deltaY * tiling.x;
                 material.SetTextureOffset("_BgTex", offset);
+
+                if (isPlayerInCenter)
+                {
+                    isPlayerInCenter = false;
+                    btMaterial.SetTextureOffset("_MainTex", Vector2.zero);
+                }
             }
         }
 
@@ -108,5 +123,11 @@ public class MapController : MonoBehaviour {
 				}
 			}
 		}
+    }
+
+    public void putPlayerInCenter()
+    {
+        isPlayerInCenter = true;
+        btMaterial.SetTextureOffset("_MainTex", new Vector2(0.5f, 0));
     }
 }
