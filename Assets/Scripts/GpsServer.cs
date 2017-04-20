@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ public class GpsServer : MonoBehaviour {
     private bool isStarted = false;
     private LocationInfo info;
 
+    private DateTime dateTime;
     private Vector3 horizontal;
 
     private const int R = 6371000;
@@ -24,20 +26,22 @@ public class GpsServer : MonoBehaviour {
 	}
 	
 	void Update () {
-        if (true)
-        {         
-            text.text = "timestamp:" + info.timestamp;
-            text.text += "\nlongitude:" + info.longitude;
-            text.text += "\nlatitude:" + info.latitude;
-            text.text += "\nhorizontalAccuracy:" + info.horizontalAccuracy;
-            text.text += "\naltitude:" + info.altitude;
-            text.text += "\nverticalAccuracy:" + info.verticalAccuracy;
+        if (isStarted)
+        {
+            StringBuilder stringBuilder = new StringBuilder("timestamp:" + info.timestamp);
+            stringBuilder.Append("\nlongitude:" + info.longitude);
+            stringBuilder.Append("\nlatitude:" + info.latitude);
+            stringBuilder.Append("\nhorizontalAccuracy:" + info.horizontalAccuracy);
+            stringBuilder.Append("\naltitude:" + info.altitude);
+            stringBuilder.Append("\nverticalAccuracy:" + info.verticalAccuracy);
 
-            text.text += "\n";
+            stringBuilder.Append("\n");
 
-            text.text += "\ntime:" + getTime((long)info.timestamp);
-            text.text += "\nhorizontal:" + getHorizontal(info);
-            text.text += "\nvertical:";
+            stringBuilder.Append("\ntime:" + dateTime);
+            stringBuilder.Append("\nhorizontal:" + horizontal);
+            stringBuilder.Append("\nvertical:");
+
+            text.text = stringBuilder.ToString();
         }
 	}
 
@@ -141,6 +145,7 @@ public class GpsServer : MonoBehaviour {
             {
                 info = Input.location.lastData;
                 horizontal = getHorizontal(info);
+                dateTime = getTime((long)info.timestamp);
                 yield return new WaitForSeconds(2);
             }
         }

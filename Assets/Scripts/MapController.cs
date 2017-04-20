@@ -26,12 +26,11 @@ public class MapController : MonoBehaviour {
 	
 	void Update () {
         player = material.GetVector("_Target");
-        spinPlayer();
         placePlayer();
+        spinPlayer();
         material.SetVector("_Target", player);
 
         screenControl();
-
 	}
 
     private void playerInTheCenter()
