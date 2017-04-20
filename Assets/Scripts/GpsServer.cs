@@ -118,7 +118,7 @@ public class GpsServer : MonoBehaviour {
             yield break;
         }
 
-        Input.location.Start(1,1);
+        Input.location.Start(0.3f, 0.3f);
 
         int maxWait = 20;
         while (Input.location.status == LocationServiceStatus.Initializing && maxWait > 0)
@@ -152,7 +152,7 @@ public class GpsServer : MonoBehaviour {
                 horizontal = getHorizontal(info);
                 dateTime = getTime((long)info.timestamp);
                 printLocationInfo();
-                yield return new WaitForSeconds(2);
+                yield return new WaitForSeconds(1);
             }
         }
     }
