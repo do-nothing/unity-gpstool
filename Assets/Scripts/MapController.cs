@@ -23,6 +23,8 @@ public class MapController : MonoBehaviour {
         gpsServer = GetComponent<GpsServer>();
         offset = material.GetTextureOffset("_BgTex");
         tiling = material.GetTextureScale("_BgTex");
+        Texture2D triggers = TiggersBuilder.getTexture();
+        material.SetTexture("_triggers", triggers);
 
         if (!Input.gyro.enabled)
             Input.gyro.enabled = true;

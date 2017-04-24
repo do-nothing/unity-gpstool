@@ -18,6 +18,7 @@
 			float4 _BgTex_ST;
 			sampler2D _MainTex;
 			sampler2D _PlayerTex;
+			sampler2D _triggers;
 			float4 _PlayerTex_ST;
 			float4 _Target;
 			
@@ -60,11 +61,14 @@
 			fixed4 frag(v2f i) : SV_Target {
 				i.uv += 0.5;
 				fixed3 color;
+				fixed4 trigersColor;
 				if (i.uv.x > 2 || i.uv.x < 0 || i.uv.y < 0 || i.uv.y > 2){
 					color = tex2D(_BgTex, i.uv).rgb;	
 				} else {
 					i.uv *= 0.5;
 					color = tex2D(_MainTex, i.uv).rgb;	
+					trigersColor = tex2D(_triggers, i.uv);
+					color = lerp(color, trigersColor, trigersColor.w);
 					_Target *= 0.002;
 					if(distance(i.uv, _Target.xy) < _Target.z){
 						color = lerp(color, float4(0,0.5,1,1), 0.2);
