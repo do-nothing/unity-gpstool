@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class GpsServer : MonoBehaviour {
 
+    public enum Status { IDLE, NOD, SHAKE };
+
     private Text text;
     private bool isStarted = false;
     private LocationInfo info;
@@ -18,6 +20,10 @@ public class GpsServer : MonoBehaviour {
     private Vector2 olal = new Vector2(108.856127f, 34.196107f);
     private Vector2 origin = new Vector2(300, 65);
 
+    private Vector3 lastAcceleration;
+    private Status status = Status.IDLE;
+    private float markTime;
+
     IEnumerator Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
@@ -26,7 +32,32 @@ public class GpsServer : MonoBehaviour {
 	}
 	
 	void Update () {
-        
+        Vector3 delta = Input.acceleration - lastAcceleration;
+
+        Vector2 maxAcc= new Vector2(Mathf.Abs(delta.x), Mathf.Abs(delta.y));
+
+        if (Mathf.Max(maxAcc.x, maxAcc.y) > 0.5f)
+        {
+            if (maxAcc.x > maxAcc.y)
+            {
+                status = Status.SHAKE;
+            }
+            else
+            {
+                status = Status.NOD;
+            }
+
+            markTime = Time.time;
+        }
+        else
+        {
+            if (Time.time - markTime > 1.1f)
+                status = Status.IDLE;
+        }
+
+        lastAcceleration = Input.acceleration;
+
+        printLocationInfo();
 	}
 
     private void printLocationInfo()
@@ -41,10 +72,12 @@ public class GpsServer : MonoBehaviour {
             stringBuilder.Append("\nverticalAccuracy:" + info.verticalAccuracy);
 
             stringBuilder.Append("\n");
-
             stringBuilder.Append("\ntime:" + dateTime);
             stringBuilder.Append("\nhorizontal:" + horizontal);
             stringBuilder.Append("\nsystemTime:" + Time.time);
+
+            stringBuilder.Append("\n");
+            stringBuilder.Append("\nstatus:" + status);
 
             text.text = stringBuilder.ToString();
         }
@@ -151,7 +184,6 @@ public class GpsServer : MonoBehaviour {
                 info = Input.location.lastData;
                 horizontal = getHorizontal(info);
                 dateTime = getTime((long)info.timestamp);
-                printLocationInfo();
                 yield return new WaitForSeconds(1);
             }
         }

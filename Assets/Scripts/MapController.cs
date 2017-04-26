@@ -32,6 +32,11 @@ public class MapController : MonoBehaviour {
 	}
 	
 	void Update () {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
         player = material.GetVector("_Target");
         placePlayer();
         spinPlayer();
