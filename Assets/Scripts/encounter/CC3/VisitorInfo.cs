@@ -19,7 +19,7 @@ namespace Microwise.Guide
                 return _location;
             }
 
-            internal set
+            set
             {
                 _location = value;
             }
@@ -32,15 +32,19 @@ namespace Microwise.Guide
                 return _toward;
             }
 
-            internal set
+            set
             {
-                setStatus(_toward, value);
+                //setStatus(_toward, value);
                 _toward = value;
             }
         }
 
         public Status status
         {
+            set
+            {
+                _status = value;
+            }
             get
             {
                 return _status;

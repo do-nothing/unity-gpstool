@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Microwise.Guide;
+using System.Text;
 
 public class MapController : MonoBehaviour {
 
@@ -12,11 +14,16 @@ public class MapController : MonoBehaviour {
 	private bool moveable = false;
     private Vector4 player;
     private GpsServer gpsServer;
-    public GameObject bt;
     private Material btMaterial;
     private bool isPlayerInCenter = false;
+    private Text text;
+    
+    private readonly Vector4 newPlayer = new Vector4(345, 81, 0, 0);
+    public GameObject bt;
+    public GuideClient guideClient;
 
 	void Start () {
+        text = GameObject.Find("Canvas/Text1").GetComponent<Text>();
         material = GetComponent<Image>().material;
         btMaterial = bt.GetComponent<Image>().material;
         btMaterial.SetTextureOffset("_MainTex", Vector2.zero);
@@ -25,6 +32,7 @@ public class MapController : MonoBehaviour {
         tiling = material.GetTextureScale("_BgTex");
         Texture2D triggers = TiggersBuilder.getTexture();
         material.SetTexture("_triggers", triggers);
+        material.SetVector("_Target", newPlayer);
 
         if (!Input.gyro.enabled)
             Input.gyro.enabled = true;
@@ -42,12 +50,35 @@ public class MapController : MonoBehaviour {
         spinPlayer();
         material.SetVector("_Target", player);
 
+        setGuideClient();
+
         screenControl();
         if (isPlayerInCenter)
         {
             playerInTheCenter();
         }
+
+        printVoices();
 	}
+
+    private void printVoices()
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        LinkedList<string> voices = guideClient.getVoiceList();
+        foreach (string voice in voices)
+        {
+            stringBuilder.Append("\n" + voice);
+        }
+
+        text.text = stringBuilder.ToString();
+    }
+
+    private void setGuideClient()
+    {
+        Vector4 clientOffset = player - newPlayer;
+        VisitorInfo.Status status = gpsServer.getStatus();
+        guideClient.setVisitorInfo(clientOffset.x, clientOffset.y, clientOffset.w, status);
+    }
 
     private void playerInTheCenter()
     {
@@ -66,6 +97,8 @@ public class MapController : MonoBehaviour {
 
     private void spinPlayer()
     {
+        if (Input.location.status != LocationServiceStatus.Running)
+            return;
         float compass;
         Quaternion quaternion = Input.gyro.attitude;
         quaternion.z *= -1;

@@ -26,7 +26,7 @@ public class TiggersBuilder {
     private static void drawBG()
     {
         Color[] cols = texture.GetPixels();
-        Debug.Log(cols.Length);
+        //Debug.Log(cols.Length);
         for (int i = 0; i < cols.Length; i++)
         {
             cols[i] = new Color(1, 1, 1, 0);

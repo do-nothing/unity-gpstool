@@ -4,10 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using Microwise.Guide;
 
 public class GpsServer : MonoBehaviour {
-
-    public enum Status { IDLE, NOD, SHAKE };
 
     private Text text;
     private bool isStarted = false;
@@ -21,7 +20,7 @@ public class GpsServer : MonoBehaviour {
     private Vector2 origin = new Vector2(300, 65);
 
     private Vector3 lastAcceleration;
-    private Status status = Status.IDLE;
+    private VisitorInfo.Status status = VisitorInfo.Status.IDLE;
     private float markTime;
 
     IEnumerator Start()
@@ -32,19 +31,28 @@ public class GpsServer : MonoBehaviour {
 	}
 	
 	void Update () {
+
+        calcStatus();
+    
+        printLocationInfo();
+	
+    }
+
+    private void calcStatus()
+    {
         Vector3 delta = Input.acceleration - lastAcceleration;
 
-        Vector2 maxAcc= new Vector2(Mathf.Abs(delta.x), Mathf.Abs(delta.y));
+        Vector2 maxAcc = new Vector2(Mathf.Abs(delta.x), Mathf.Abs(delta.y));
 
         if (Mathf.Max(maxAcc.x, maxAcc.y) > 0.5f)
         {
             if (maxAcc.x > maxAcc.y)
             {
-                status = Status.SHAKE;
+                status = VisitorInfo.Status.SHAKE;
             }
             else
             {
-                status = Status.NOD;
+                status = VisitorInfo.Status.NOD;
             }
 
             markTime = Time.time;
@@ -52,13 +60,11 @@ public class GpsServer : MonoBehaviour {
         else
         {
             if (Time.time - markTime > 1.1f)
-                status = Status.IDLE;
+                status = VisitorInfo.Status.IDLE;
         }
 
         lastAcceleration = Input.acceleration;
-
-        printLocationInfo();
-	}
+    }
 
     private void printLocationInfo()
     {
@@ -200,5 +206,10 @@ public class GpsServer : MonoBehaviour {
     public Vector3 getHorizontal()
     {
         return horizontal;
+    }
+
+    public VisitorInfo.Status getStatus()
+    {
+        return status;
     }
 }

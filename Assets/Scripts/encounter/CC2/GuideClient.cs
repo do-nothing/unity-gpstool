@@ -29,8 +29,8 @@ namespace Microwise.Guide
 
         private void Update()
         {
-            info.location = transform.position;
-            info.toward = new Vector2(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y);
+            //info.location = transform.position;
+            //info.toward = new Vector2(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y);
             showInfo();
 
             if (!audioSource.isPlaying)
@@ -59,6 +59,20 @@ namespace Microwise.Guide
                     isBusy = false;
                 }
             }
+        }
+
+        public void setVisitorInfo(float x, float y, float toward, VisitorInfo.Status status)
+        {
+            Vector3 p = new Vector3(x, 0, y);
+            info.location = p;
+            Vector2 t = new Vector2(0, toward);
+            info.toward = t;
+            info.status = status;
+        }
+
+        public LinkedList<string> getVoiceList()
+        {
+            return voices;
         }
 
         private AudioClip getAudioClip(string filePath)

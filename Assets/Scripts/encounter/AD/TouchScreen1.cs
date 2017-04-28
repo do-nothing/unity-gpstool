@@ -4,7 +4,9 @@ using System.Collections;
 public class TouchScreen1 : MonoBehaviour
 {
     private static TouchScreen1 instance; 
+#if UNITY_EDITOR
     public MovieTexture mt;
+#endif
     private AudioSource audioSource;
 
     public static TouchScreen1 getInstance()
@@ -20,9 +22,11 @@ public class TouchScreen1 : MonoBehaviour
 
     public void playVideo()
     {
+#if UNITY_EDITOR
         mt.Stop();
-        audioSource.Stop();
         mt.Play();
+#endif
+        audioSource.Stop();
         audioSource.Play();
     }
 }
