@@ -8,5 +8,6 @@ namespace Microwise.Guide
     {
         float radius { get; set; }
         void computeVoices(VisitorInfo info, LinkedList<string> voices);
+        Vector3 getTrigger();
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Microwise.Guide;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,19 +37,7 @@ public class TiggersBuilder {
 
     private static void drawTriggers()
     {
-        List<Vector3> triggers = new List<Vector3>();
-        triggers.Add(new Vector3(0, 0, 3));
-        triggers.Add(new Vector3(0, 18, 3));
-        triggers.Add(new Vector3(0, 43, 5));
-        triggers.Add(new Vector3(-15.5f, 76, 6));
-        triggers.Add(new Vector3(-2.5f, 64, 6));
-        triggers.Add(new Vector3(-14, 84, 2));
-        triggers.Add(new Vector3(-31.5f, 104, 3));
-        triggers.Add(new Vector3(-34, 142, 10));
-        triggers.Add(new Vector3(0, -20, 10));
-        triggers.Add(new Vector3(0, -40, 10));
-        triggers.Add(new Vector3(-44, -14, 20));
-        triggers.Add(new Vector3(-27, 68, 1));
+        List<Vector3> triggers = TriggersController.controller.getTriggers();
 
         foreach(Vector3 trigger in triggers){
             Vector3 v = trigger + new Vector3(345, 81, 0);

@@ -35,5 +35,17 @@ namespace Microwise.Guide
                 triggerLogic.computeVoices(info, voices);
             }
         }
+
+        public List<Vector3> getTriggers()
+        {
+            List<Vector3> triggerList = new List<Vector3>();
+
+            foreach (ITriggerLogic tiggerLogic in triggers)
+            {
+                triggerList.Add(tiggerLogic.getTrigger());
+            }
+
+            return triggerList;
+        }
     }
 }

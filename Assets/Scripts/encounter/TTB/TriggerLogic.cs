@@ -43,6 +43,11 @@ namespace Microwise.Guide
             dynamicRadius = radius - offset;
         }
 
+        public Vector3 getTrigger()
+        {
+             return new Vector3(targetLocation.x, targetLocation.z, _radius);
+        }
+
         public void computeVoices(VisitorInfo info, LinkedList<string> voices)
         {
             this.info = info;

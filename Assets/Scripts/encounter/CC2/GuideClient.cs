@@ -65,7 +65,7 @@ namespace Microwise.Guide
         {
             Vector3 p = new Vector3(x, 0, y);
             info.location = p;
-            Vector2 t = new Vector2(0, toward);
+            Vector2 t = new Vector2(0, 360 - toward);
             info.toward = t;
             info.status = status;
         }
