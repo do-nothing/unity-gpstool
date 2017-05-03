@@ -32,7 +32,7 @@ namespace Microwise.Guide
             triggers.Add(new Denglinggu_park_intersection1(new Vector3(0, 0, 43), 6)); //岔路口1
             triggers.Add(new Denglinggu_park_intersection2(new Vector3(-15.5f, 0, 76), 6)); //岔路口2
             triggers.Add(new Denglinggu_park_warning1(new Vector3(-2.5f, 0, 64), 6)); //小心路滑
-            triggers.Add(new Denglinggu_park_warning2(new Vector3(-12, 0, 88), 6)); //道路施工
+            triggers.Add(new Denglinggu_park_warning2(new Vector3(-12, 0, 87), 6)); //道路施工
             triggers.Add(new Denglinggu_park_intersection3(new Vector3(-31.5f, 0, 104), 6)); //岔路口3
             triggers.Add(new Denglinggu_park_warning3(new Vector3(-34, 0, 142), 10)); //时间提醒
             triggers.Add(new Denglinggu_park_recommend(new Vector3(0, 0, -20), 9)); //推荐晚饭

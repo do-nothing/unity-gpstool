@@ -70,6 +70,8 @@ public class MapController : MonoBehaviour {
             stringBuilder.Append("\n" + voice);
         }
 
+        stringBuilder.Append("\nplayer:" + player);
+
         text.text = stringBuilder.ToString();
     }
 

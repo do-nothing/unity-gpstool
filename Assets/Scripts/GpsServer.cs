@@ -17,7 +17,7 @@ public class GpsServer : MonoBehaviour {
 
     private const int R = 6371000;
     private Vector2 olal = new Vector2(108.856127f, 34.196107f);
-    private Vector2 origin = new Vector2(300, 65);
+    private Vector2 origin = new Vector2(296, 68);
 
     private Vector3 lastAcceleration;
     private VisitorInfo.Status status = VisitorInfo.Status.IDLE;
