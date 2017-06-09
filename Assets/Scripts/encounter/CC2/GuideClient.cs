@@ -11,6 +11,7 @@ namespace Microwise.Guide
         private bool isBusy = false;
         internal LinkedList<string> voices = new LinkedList<string>();
         internal VisitorInfo info;
+        internal float accuracy;
 
 #pragma warning disable 0414
         [SerializeField]
@@ -61,12 +62,13 @@ namespace Microwise.Guide
             }
         }
 
-        public void setVisitorInfo(float x, float y, float toward, VisitorInfo.Status status)
+        public void setVisitorInfo(float x, float y, float accuracy, float toward, VisitorInfo.Status status)
         {
             Vector3 p = new Vector3(x, 0, y);
             info.location = p;
             Vector2 t = new Vector2(0, 360 - toward);
             info.toward = t;
+            this.accuracy = accuracy;
             info.status = status;
         }
 

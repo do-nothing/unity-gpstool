@@ -79,7 +79,7 @@ public class MapController : MonoBehaviour {
     {
         Vector4 clientOffset = player - newPlayer;
         VisitorInfo.Status status = gpsServer.getStatus();
-        guideClient.setVisitorInfo(clientOffset.x, clientOffset.y, clientOffset.w, status);
+        guideClient.setVisitorInfo(clientOffset.x, clientOffset.y, clientOffset.z, clientOffset.w, status);
     }
 
     private void playerInTheCenter()
