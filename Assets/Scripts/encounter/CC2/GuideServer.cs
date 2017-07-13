@@ -18,8 +18,8 @@ namespace Microwise.Guide
 
         private IEnumerator Start()
         {
-            conn.init();
-            conn.addMessageListener(processMessage);
+            //conn.init();
+            //conn.addMessageListener(processMessage);
             Application.runInBackground = true;
 
             color = ColorUtility.ToHtmlStringRGBA(Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f));
@@ -31,7 +31,7 @@ namespace Microwise.Guide
             {
                 yield return new WaitForSeconds(1);
                 checkClients();
-                sendClientInfo();
+                //sendClientInfo();
             }
         }
 

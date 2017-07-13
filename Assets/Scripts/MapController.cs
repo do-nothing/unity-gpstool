@@ -17,12 +17,14 @@ public class MapController : MonoBehaviour {
     private Material btMaterial;
     private bool isPlayerInCenter = false;
     private Text text;
+    private LocationReceiver lr;
     
     private readonly Vector4 newPlayer = new Vector4(345, 81, 0, 0);
     public GameObject bt;
     public GuideClient guideClient;
 
 	void Start () {
+        lr = GetComponent<LocationReceiver>();
         text = GameObject.Find("Canvas/Text1").GetComponent<Text>();
         material = GetComponent<Image>().material;
         btMaterial = bt.GetComponent<Image>().material;
@@ -91,16 +93,19 @@ public class MapController : MonoBehaviour {
 
     private void placePlayer()
     {
-        if (Input.location.status == LocationServiceStatus.Running)
+        /*if (Input.location.status == LocationServiceStatus.Running)
         {
             player = gpsServer.getHorizontal();
-        }
+        }*/
+        Vector2 location = lr.getLocation();
+        player.x = location.x;
+        player.y = location.y;
     }
 
     private void spinPlayer()
     {
-        if (Input.location.status != LocationServiceStatus.Running)
-            return;
+        /*if (Input.location.status != LocationServiceStatus.Running)
+            return;*/
         float compass;
         Quaternion quaternion = Input.gyro.attitude;
         quaternion.z *= -1;
