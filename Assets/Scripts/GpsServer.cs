@@ -23,18 +23,18 @@ public class GpsServer : MonoBehaviour {
     private VisitorInfo.Status status = VisitorInfo.Status.IDLE;
     private float markTime;
 
-    IEnumerator Start()
+    /*IEnumerator Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         text = GameObject.Find("Canvas/Text").GetComponent<Text>();
         yield return startGPS();
-	}
+	}*/
 	
 	void Update () {
 
         calcStatus();
     
-        printLocationInfo();
+        //printLocationInfo();
 	
     }
 

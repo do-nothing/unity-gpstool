@@ -18,12 +18,17 @@ public class MapController : MonoBehaviour {
     private bool isPlayerInCenter = false;
     private Text text;
     private LocationReceiver lr;
-    
+    private Vector2 screenCenter;
+
+    private readonly Vector4 indoorOffset = new Vector4(1.2f, 19.2f, 0, 0);
     private readonly Vector4 newPlayer = new Vector4(345, 81, 0, 0);
     public GameObject bt;
     public GuideClient guideClient;
 
 	void Start () {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        screenCenter = transform.parent.GetComponent<RectTransform>().sizeDelta * 0.5f;
+
         lr = GetComponent<LocationReceiver>();
         text = GameObject.Find("Canvas/Text1").GetComponent<Text>();
         material = GetComponent<Image>().material;
@@ -63,6 +68,16 @@ public class MapController : MonoBehaviour {
         printVoices();
 	}
 
+    private Vector2 calcMousePosition(Vector3 v3)
+    {
+        Vector2 v2 = v3;
+
+        v2 = (v2 - screenCenter) / screenCenter.y * tiling.x * 0.5f + offset + Vector2.one;
+
+        v2 *= 250;
+        return v2;
+    }
+
     private void printVoices()
     {
         StringBuilder stringBuilder = new StringBuilder();
@@ -79,15 +94,15 @@ public class MapController : MonoBehaviour {
 
     private void setGuideClient()
     {
-        Vector4 clientOffset = player - newPlayer;
+        Vector4 clientOffset = player - indoorOffset;
         VisitorInfo.Status status = gpsServer.getStatus();
         guideClient.setVisitorInfo(clientOffset.x, clientOffset.y, clientOffset.z, clientOffset.w, status);
     }
 
     private void playerInTheCenter()
     {
-        offset.x = player.x * 0.004f - 1;
-        offset.y = player.y * 0.004f - 1;
+        offset.x = player.x / 30 - 1;
+        offset.y = player.y / 30 - 1;
         material.SetTextureOffset("_BgTex", offset);
     }
 
