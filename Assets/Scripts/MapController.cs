@@ -87,7 +87,7 @@ public class MapController : MonoBehaviour {
             stringBuilder.Append("\n" + voice);
         }
 
-        stringBuilder.Append("\nplayer:" + player);
+        stringBuilder.Append("\nplayer:" + (player - indoorOffset));
 
         text.text = stringBuilder.ToString();
     }

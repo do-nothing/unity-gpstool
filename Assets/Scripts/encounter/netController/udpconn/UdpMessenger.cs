@@ -60,7 +60,7 @@ namespace Microwise.Guide.NetConn
 
         public void addMessageListener(ProcessMessage processMessage)
         {
-            this.processMessage = processMessage;
+            this.processMessage += processMessage;
         }
 
         private void startReceiver()

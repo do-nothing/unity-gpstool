@@ -29,6 +29,15 @@ namespace Microwise.Guide
                 case "denglingu_eh1_touchscreen1_playVideo":
                     TouchScreen1.getInstance().playVideo();
                     break;
+                case "denglingu_eh1_rfid_turnOn":
+                    ConnController.instance.turnLight(true);
+                    break;
+                case "denglingu_eh1_rfid_turnOff":
+                    ConnController.instance.turnLight(false);
+                    break;
+                case "denglingu_eh1_rfid_flash6":
+                    ConnController.instance.flashLight(6);
+                    break;
             }
         }
     }

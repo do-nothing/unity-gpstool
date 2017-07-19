@@ -29,6 +29,6 @@ public class LocationReceiver : MonoBehaviour
             location.x = (float)(double)json["contentBean"]["args"][0];
             location.y = (float)(double)json["contentBean"]["args"][1];
         }
-        print(location);
+        //print(location);
     }
 }

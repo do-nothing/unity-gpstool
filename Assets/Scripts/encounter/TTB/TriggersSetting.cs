@@ -27,8 +27,10 @@ namespace Microwise.Guide
             /********************** 冯斌 End   *************************/
 
             /********************** 李军 Start *************************/
-            triggers.Add(new Denglinggu_park_origin(new Vector3(0, 0, 0), 1)); // 进入点（喷泉）
-            triggers.Add(new Denglinggu_park_entrance(new Vector3(0, 0, 5), 1)); // 瞪羚谷入口
+            triggers.Add(new Denglinggu_indoor_entrance(new Vector3(42, 0, 10.5f), 2)); // 进入点
+            triggers.Add(new Denglinggu_indoor_door1(new Vector3(48, 0, 10.5f), 1.5f)); // 展厅口
+            triggers.Add(new Denglinggu_indoor_guanniao(new Vector3(48, 0, 13f), 0.8f)); // 观鸟捕蝉图
+            triggers.Add(new Denglinggu_indoor_rfid(new Vector3(48, 0, 15f), 0.8f)); // RFID
 
 
 
