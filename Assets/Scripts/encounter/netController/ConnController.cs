@@ -20,7 +20,6 @@ public class ConnController
     public void init()
     {
         messenger = UdpMessenger.getInstance("121.42.196.133", 5555);
-        messenger.addMessageListener(messageHandler);
     }
 
     public void close()
@@ -31,7 +30,7 @@ public class ConnController
     public void sendGuideInfo(string id, JsonData info)
     {
 
-        string str = "{\"id\":\"guide machine\",\"target\":\"monitor\",\"logType\":\"guide info\",\"strategy\":\"relay\",\"quality\":0,\"timestamp\":1494825498577," +
+        string str = "{\"id\":\"indoordemo\",\"target\":\"monitor\",\"logType\":\"guide info\",\"strategy\":\"relay\",\"quality\":0,\"timestamp\":1494825498577," +
                 "\"contentBean\":{\"command\":\"processGuideInfo\",\"args\":[\"sth\"]}}";
         JsonData json = JsonMapper.ToObject(str);
         json["id"] = id;
@@ -41,7 +40,7 @@ public class ConnController
 
     public void turnLight(bool flag)
     {
-        String str = "{\"id\":\"monitor\",\"target\":\"JY05SfZdGcM0WDdO\",\"logType\":\"path\",\"strategy\":\"relay\",\"quality\":1,\"timestamp\":1494825498577," +
+        String str = "{\"id\":\"indoordemo\",\"target\":\"JY05SfZdGcM0WDdO\",\"logType\":\"path\",\"strategy\":\"relay\",\"quality\":1,\"timestamp\":1494825498577," +
             "\"contentBean\":{\"command\":\"setStatus\",\"args\":[2, 1]}}";
         JsonData json = JsonMapper.ToObject(str);
         if (flag)
@@ -49,30 +48,44 @@ public class ConnController
         else
             json["contentBean"]["args"][1] = 0;
         messenger.sendMessage(json);
+        messenger.sendMessage(json);
+        messenger.sendMessage(json);
     }
 
     public void flashLight(int times)
     {
-        String str = "{\"id\":\"monitor\",\"target\":\"JY05SfZdGcM0WDdO\",\"logType\":\"path\",\"strategy\":\"relay\",\"quality\":1,\"timestamp\":1494825498577," +
+        String str = "{\"id\":\"indoordemo\",\"target\":\"JY05SfZdGcM0WDdO\",\"logType\":\"path\",\"strategy\":\"relay\",\"quality\":1,\"timestamp\":1494825498577," +
             "\"contentBean\":{\"command\":\"setFlashTimes\",\"args\":[2, 1]}}";
         JsonData json = JsonMapper.ToObject(str);
 
         json["contentBean"]["args"][1] = times;
 
         messenger.sendMessage(json);
+        messenger.sendMessage(json);
+        messenger.sendMessage(json);
     }
 
-    private void messageHandler(JsonData json)
+    public void highlightChan()
     {
+        String str = "{\"id\":\"indoordemo\",\"target\":\"guanniao_guide\",\"logType\":\"path\",\"strategy\":\"relay\",\"quality\":1,\"timestamp\":1494825498577," +
+            "\"contentBean\":{\"command\":\"highlightChan\",\"args\":[\"sth\"]}}";
+        JsonData json = JsonMapper.ToObject(str);
 
-        if (json["monitorId"] == null)
-        {
-            json["monitorId"] = "";
-        }
-        if (json["id"].ToString() == "JY05SfZdGcM0WDdO")
-        {
-            //lightFlag = json["contentBean"]["args"][0].ToString().Substring(1, 1);
-        }
+        messenger.sendMessage(json);
+        messenger.sendMessage(json);
+        messenger.sendMessage(json);
+    }
+
+    public void lockpage(bool flag)
+    {
+        String str = "{\"id\":\"indoordemo\",\"target\":\"guanniao_guide\",\"logType\":\"path\",\"strategy\":\"relay\",\"quality\":1,\"timestamp\":1494825498577," +
+            "\"contentBean\":{\"command\":\"lockpage\",\"args\":[true]}}";
+        JsonData json = JsonMapper.ToObject(str);
+        json["contentBean"]["args"][0] = flag;
+
+        messenger.sendMessage(json);
+        messenger.sendMessage(json);
+        messenger.sendMessage(json);
     }
 
     public void addMessageListener(ProcessMessage processMessage)

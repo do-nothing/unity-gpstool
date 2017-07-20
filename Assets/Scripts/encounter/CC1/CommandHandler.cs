@@ -38,6 +38,15 @@ namespace Microwise.Guide
                 case "denglingu_eh1_rfid_flash6":
                     ConnController.instance.flashLight(6);
                     break;
+                case "denglingu_eh1_guanniao_lockpage":
+                    ConnController.instance.lockpage(true);
+                    break;
+                case "denglingu_eh1_guanniao_unlockpage":
+                    ConnController.instance.lockpage(false);
+                    break;
+                case "denglingu_eh1_guanniao_highlightChan":
+                    ConnController.instance.highlightChan();
+                    break;
             }
         }
     }

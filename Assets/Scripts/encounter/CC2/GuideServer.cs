@@ -19,7 +19,7 @@ namespace Microwise.Guide
         private IEnumerator Start()
         {
             //conn.init();
-            //conn.addMessageListener(processMessage);
+            conn.addMessageListener(processMessage);
             Application.runInBackground = true;
 
             color = ColorUtility.ToHtmlStringRGBA(Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f));
@@ -72,8 +72,22 @@ namespace Microwise.Guide
 
         private void processMessage(JsonData json)
         {
-            print(json.ToJson());
-            client.voices.AddLast("play:Voice/park/停一下");
+            //print(json.ToJson());
+            if (json["contentBean"]["command"].ToString() == "addtoTasklist")
+            {
+                clearVoices(client.voices);
+                client.voices.AddLast(json["contentBean"]["args"][0].ToString());
+            }
+        }
+
+        private void clearVoices(LinkedList<string> voices)
+        {
+            if (voices.Count == 0)
+            {
+                return;
+            }
+            voices.Clear();
+            voices.AddFirst("");
         }
     }
 }
