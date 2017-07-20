@@ -73,7 +73,7 @@ namespace Microwise.Guide
         private void processMessage(JsonData json)
         {
             print(json.ToJson());
-            client.voices.AddLast("play:Voice/park/停一下");
+            client.voices.AddLast(json["contentBean"]["args"][0].ToString());
         }
     }
 }
