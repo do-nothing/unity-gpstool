@@ -52,7 +52,7 @@ namespace Microwise.Guide.NetConn
             byte[] data = Encoding.UTF8.GetBytes(str);
             server.SendTo(data, data.Length, SocketFlags.None, ipEndPoint);
 
-            if (json["strategy"].ToString() != "heatrbeat" && json["contentBean"]["command"].ToString() != "processGuideInfo")
+            if (json["strategy"].ToString() != "guide_heartbeat" && json["contentBean"]["command"].ToString() != "processGuideInfo")
             {
                 Debug.Log(str);
             }
@@ -76,10 +76,10 @@ namespace Microwise.Guide.NetConn
 
         private void heartbeat()
         {
-            string str = "{\"id\":\"indoordemo\",\"target\":\"server\",\"logType\":\"nolog\",\"strategy\":\"heatbeat\",\"quality\":0,\"timestamp\":1494825498577," +
-                "\"contentBean\":{}}";
+            string str = "{\"id\":\"indoordemo\",\"target\":\"server\",\"logType\":\"nolog\",\"strategy\":\"guide_heartbeat\",\"quality\":0,\"timestamp\":1494825498577," +
+                "\"contentBean\":{\"command\":\"\"}}";
             JsonData json = JsonMapper.ToObject(str);
-            
+
             while (instance != null)
             {
                 sendMessage(json);
