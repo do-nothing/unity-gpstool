@@ -76,7 +76,7 @@ namespace Microwise.Guide.NetConn
 
         private void heartbeat()
         {
-            string str = "{\"id\":\"monitor\",\"target\":\"server\",\"logType\":\"nolog\",\"strategy\":\"heatbeat\",\"quality\":0,\"timestamp\":1494825498577," +
+            string str = "{\"id\":\"guide machine\",\"target\":\"server\",\"logType\":\"nolog\",\"strategy\":\"guide_heartbeat\",\"quality\":0,\"timestamp\":1494825498577," +
                 "\"contentBean\":{}}";
             JsonData json = JsonMapper.ToObject(str);
             
