@@ -40,7 +40,7 @@ public class ConnController
 
     public void turnLight(bool flag)
     {
-        String str = "{\"id\":\"indoordemo\",\"target\":\"JY05SfZdGcM0WDdO\",\"logType\":\"path\",\"strategy\":\"relay\",\"quality\":1,\"timestamp\":1494825498577," +
+        String str = "{\"id\":\"indoordemo\",\"target\":\"JY05SfZdGcM0WDdO\",\"logType\":\"path\",\"strategy\":\"relay\",\"quality\":0,\"timestamp\":1494825498577," +
             "\"contentBean\":{\"command\":\"setStatus\",\"args\":[2, 1]}}";
         JsonData json = JsonMapper.ToObject(str);
         if (flag)
@@ -54,7 +54,7 @@ public class ConnController
 
     public void flashLight(int times)
     {
-        String str = "{\"id\":\"indoordemo\",\"target\":\"JY05SfZdGcM0WDdO\",\"logType\":\"path\",\"strategy\":\"relay\",\"quality\":1,\"timestamp\":1494825498577," +
+        String str = "{\"id\":\"indoordemo\",\"target\":\"JY05SfZdGcM0WDdO\",\"logType\":\"path\",\"strategy\":\"relay\",\"quality\":0,\"timestamp\":1494825498577," +
             "\"contentBean\":{\"command\":\"setFlashTimes\",\"args\":[2, 1]}}";
         JsonData json = JsonMapper.ToObject(str);
 
@@ -67,7 +67,7 @@ public class ConnController
 
     public void highlightChan()
     {
-        String str = "{\"id\":\"indoordemo\",\"target\":\"guanniao_guide\",\"logType\":\"path\",\"strategy\":\"relay\",\"quality\":1,\"timestamp\":1494825498577," +
+        String str = "{\"id\":\"indoordemo\",\"target\":\"guanniao_guide\",\"logType\":\"path\",\"strategy\":\"relay\",\"quality\":0,\"timestamp\":1494825498577," +
             "\"contentBean\":{\"command\":\"highlightChan\",\"args\":[\"sth\"]}}";
         JsonData json = JsonMapper.ToObject(str);
 
@@ -78,7 +78,7 @@ public class ConnController
 
     public void lockpage(bool flag)
     {
-        String str = "{\"id\":\"indoordemo\",\"target\":\"guanniao_guide\",\"logType\":\"path\",\"strategy\":\"relay\",\"quality\":1,\"timestamp\":1494825498577," +
+        String str = "{\"id\":\"indoordemo\",\"target\":\"guanniao_guide\",\"logType\":\"path\",\"strategy\":\"relay\",\"quality\":0,\"timestamp\":1494825498577," +
             "\"contentBean\":{\"command\":\"lockpage\",\"args\":[true]}}";
         JsonData json = JsonMapper.ToObject(str);
         json["contentBean"]["args"][0] = flag;
