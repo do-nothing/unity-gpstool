@@ -20,8 +20,8 @@ public class MapController : MonoBehaviour {
     private LocationReceiver lr;
     private Vector2 screenCenter;
 
-    private readonly Vector4 indoorOffset = new Vector4(1.2f, 19.2f, 0, 0);
-    private readonly Vector4 newPlayer = new Vector4(345, 81, 0, 0);
+    private readonly Vector4 indoorOffset = Vector4.zero;//new Vector4(1.2f, 19.2f, 0, 0);
+    private readonly Vector4 newPlayer = Vector4.zero;//new Vector4(345, 81, 0, 0);
     public GameObject bt;
     public GuideClient guideClient;
 
@@ -101,8 +101,8 @@ public class MapController : MonoBehaviour {
 
     private void playerInTheCenter()
     {
-        offset.x = player.x / 30 - 1;
-        offset.y = player.y / 30 - 1;
+        offset.x = player.x / 15 - 1;
+        offset.y = player.y / 15 - 1;
         material.SetTextureOffset("_BgTex", offset);
     }
 

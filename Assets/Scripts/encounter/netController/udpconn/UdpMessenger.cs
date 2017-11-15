@@ -96,7 +96,7 @@ namespace Microwise.Guide.NetConn
                 
                 int intReceiveLength = server.ReceiveFrom(data, ref ep);
                 string strReceiveStr = Encoding.UTF8.GetString(data, 0, intReceiveLength);
-                //Debug.Log(strReceiveStr);
+                Debug.Log(strReceiveStr);
                 JsonData json = JsonMapper.ToObject(strReceiveStr);
                 if (json["monitorId"] == null)
                 {

@@ -40,7 +40,7 @@
 				o.uv = v.texcoord.xy * tiling + (float2(1,1)-tiling) * 0.5 + _BgTex_ST.zw;
 
 				//move player
-				float2 _PlayerTex_ST_zw = (_BgTex_ST.zw -_Target.xy / 30) * _PlayerTex_ST.y / _BgTex_ST.x;
+				float2 _PlayerTex_ST_zw = (_BgTex_ST.zw -_Target.xy / 15) * _PlayerTex_ST.y / _BgTex_ST.x;
 				_PlayerTex_ST_zw.x += (2 / (_BgTex_ST.x * _BgTex_ST.y) - 1) * 0.5 * _PlayerTex_ST.x;
 				_PlayerTex_ST_zw.y += (2 / _BgTex_ST.x  - 1) * 0.5 * _PlayerTex_ST.y;
 				_PlayerTex_ST_zw += _PlayerTex_ST.zw;
