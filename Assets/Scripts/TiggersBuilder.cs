@@ -8,12 +8,12 @@ public class TiggersBuilder {
     {
 
     }
-    private static int scale = 4;
+    private static int scale = 12;
     private static Texture2D texture;
 
     static TiggersBuilder()
     {
-        texture = new Texture2D(60 * scale, 60 * scale);
+        texture = new Texture2D(30 * scale, 30 * scale);
         drawBG();
         drawTriggers();
         texture.Apply();
@@ -40,7 +40,7 @@ public class TiggersBuilder {
         List<Vector3> triggers = TriggersController.controller.getTriggers();
 
         foreach(Vector3 trigger in triggers){
-            Vector3 v = trigger + new Vector3(1.2f, 19.2f, 0);
+            Vector3 v = trigger;
             drawTrigger(v);
         }
     }
