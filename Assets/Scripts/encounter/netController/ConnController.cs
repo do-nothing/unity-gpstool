@@ -19,7 +19,7 @@ public class ConnController
 
     public void init()
     {
-        messenger = UdpMessenger.getInstance("121.42.196.133", 5555);
+        messenger = UdpMessenger.getInstance("47.95.34.142", 5555);
     }
 
     public void close()
