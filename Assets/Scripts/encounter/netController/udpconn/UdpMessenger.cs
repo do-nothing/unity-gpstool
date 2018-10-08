@@ -54,8 +54,9 @@ namespace Microwise.Guide.NetConn
 
             if (json["strategy"].ToString() != "guide_heartbeat" && json["contentBean"]["command"].ToString() != "processGuideInfo")
             {
-                Debug.Log(str);
+                //Debug.Log(str);
             }
+            Debug.Log(str);
         }
 
         public void addMessageListener(ProcessMessage processMessage)
